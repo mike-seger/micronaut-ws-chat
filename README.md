@@ -20,7 +20,9 @@ The ChatServerWebSocket class has been copied from here:
 https://docs.micronaut.io/latest/guide/index.html#websocketServer
 
 An additional self echo response has been added to onMessage:
+```
 session.sendAsync(String.format("You sent: %s", message));
+```
 
 ## Test Sending Messages 
 ```
