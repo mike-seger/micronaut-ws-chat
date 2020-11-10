@@ -13,7 +13,7 @@ mn create-app micronaut-ws-chat
 
 ## Run
 ```
-java -jar build/libs/*.jar
+java -jar build/libs/*-all.jar
 ```
 
 The ChatServerWebSocket class has been copied from here:
