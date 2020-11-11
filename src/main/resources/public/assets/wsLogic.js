@@ -77,12 +77,18 @@ function clearLog() {
     }
 }
 
+function dateStringNow() {
+    return dateString(new Date());
+}
+
+function dateString(date) {
+    var dateStr = date.toISOString().replace("T", " ").substring(0, 19);
+    return dateStr;
+}
+
 function createLogLine(msg) {
-    var date = new Date();
     var logLine = document.createElement("li");
-    logLine.innerHTML = date.getHours() + ":" +
-        getInTwoDigits(date.getMinutes()) + ":" +
-        getInTwoDigits(date.getSeconds()) + " : " +
+    logLine.innerHTML = dateStringNow() + " : " +
         formatMessage(msg);
     logLine.className = 'list-group-item';
     appendLogLine(logLine);
@@ -107,7 +113,7 @@ function createHistoryLine(msg) {
         msg.date = new Date(msg.date);
     }
     var logLine = document.createElement("li");
-    var data = "<div>Time: <span>" + msg.date.toLocaleString() + "</span></div>\
+    var data = "<div><span>" + dateString(msg.date) + "</span></div>\
             <div>URL: <span>" + msg.url + "</span></div>\
             <div>message: <span>" + msg.message + "</span></div>\
             "
