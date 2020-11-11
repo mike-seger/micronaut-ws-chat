@@ -9,8 +9,9 @@ import io.micronaut.websocket.annotation.ServerWebSocket;
 
 import java.util.function.Predicate;
 
-@ServerWebSocket("/chat/{topic}/{username}") 
+@ServerWebSocket(ChatServerWebSocket.chatEndpoint)
 public class ChatServerWebSocket {
+    final static String chatEndpoint = "/chat/{topic}/{username}";
     final private WebSocketBroadcaster broadcaster;
 
     public ChatServerWebSocket(WebSocketBroadcaster broadcaster) {
