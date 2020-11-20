@@ -1,0 +1,43 @@
+plugins {
+  id 'io.gatling.gradle' version "3.4.0"
+  id 'scala'
+  id 'groovy'
+}
+
+gatling {
+  // WARNING: options below only work when logback config file isn't provided
+  logLevel = 'WARN'
+  logHttp = 'NONE' // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
+
+//    systemProperty 'users', "${System.getProperty("users") ?: 300}"
+//    systemProperty 'seconds', "${System.getProperty("seconds") ?: 30}"
+//    systemProperty 'URL', "${System.getProperty("URL") ?: "https://demo.grydeske.com"}"
+//    systemProperty 'logback.configurationFile', 'logback.xml'
+
+}
+
+repositories {
+    mavenCentral()
+    // Gatling libraries
+//    maven { url 'http://repository.excilys.com/content/groups/public' }
+}
+
+dependencies {
+    // Gatling dependencies
+    compile 'io.gatling:gatling-app:3.4.1'
+    compile 'io.gatling.highcharts:gatling-charts-highcharts:3.4.1'
+    compile 'org.scala-lang:scala-compiler:2.13.4'
+    compile 'org.scala-lang:scala-library:2.13.4'
+}
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+//task runLoadtest(type: JavaExec) {
+
+
+//    classpath = sourceSets.main.runtimeClasspath + files('config/')
+//    main = "io.gatling.app.Gatling"
+//
+//    args = Eval.me("['-s','sdu.DemoSimulation']")
+//}
