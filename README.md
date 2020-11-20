@@ -13,6 +13,8 @@ mn create-app micronaut-ws-chat
 
 ## Run
 ```
+./gradlew run
+or
 java -jar build/libs/*-all.jar
 ```
 

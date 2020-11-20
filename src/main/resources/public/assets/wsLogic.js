@@ -78,7 +78,8 @@ function clearLog() {
 }
 
 function dateStringNow() {
-    return dateString(new Date());
+    var date = new Date()
+    return dateString(new Date(date.getTime() + (date.getTimezoneOffset()*60000)));
 }
 
 function dateString(date) {
@@ -88,8 +89,11 @@ function dateString(date) {
 
 function createLogLine(msg) {
     var logLine = document.createElement("li");
-    logLine.innerHTML = dateStringNow() + " : " +
-        formatMessage(msg);
+
+    var converter = new showdown.Converter(),
+    html = converter.makeHtml(formatMessage(msg));
+
+    logLine.innerHTML = dateStringNow() + " : " + html;
     logLine.className = 'list-group-item';
     appendLogLine(logLine);
 }

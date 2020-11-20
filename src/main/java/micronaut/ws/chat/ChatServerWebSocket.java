@@ -7,6 +7,7 @@ import io.micronaut.websocket.annotation.OnMessage;
 import io.micronaut.websocket.annotation.OnOpen;
 import io.micronaut.websocket.annotation.ServerWebSocket;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @ServerWebSocket(ChatServerWebSocket.chatEndpoint)
@@ -20,8 +21,8 @@ public class ChatServerWebSocket {
 
     @OnOpen 
     public void onOpen(String topic, String username, WebSocketSession session) {
-        String msg = "[" + username + "] Joined!";
-        broadcaster.broadcastSync(msg, isValid(topic, session));
+        String msg = "[" + username + "] Connected!";
+        broadcaster.broadcastAsync(msg, isValid(topic, session));
     }
 
     @OnMessage 
@@ -30,9 +31,9 @@ public class ChatServerWebSocket {
             String username,
             String message,
             WebSocketSession session) {
-        String msg = "[" + username + "] " + message;
-        session.sendAsync(String.format("You sent: %s", message));
-        broadcaster.broadcastSync(msg, isValid(topic, session)); 
+        String msg = "[" + username + "]\n" + message;
+  //      session.sendAsync(String.format("You sent: %s", message));
+        broadcaster.broadcastAsync(msg, isValid(topic, session));
     }
 
     @OnClose 
@@ -41,10 +42,11 @@ public class ChatServerWebSocket {
             String username,
             WebSocketSession session) {
         String msg = "[" + username + "] Disconnected!";
-        broadcaster.broadcastSync(msg, isValid(topic, session));
+//        broadcaster.broadcastAsync(msg, isValid(topic, session));
     }
 
     private Predicate<WebSocketSession> isValid(String topic, WebSocketSession session) {
-        return s -> s != session && topic.equalsIgnoreCase(s.getUriVariables().get("topic", String.class, null));
+        //return s -> /*s != session &&*/ topic.equalsIgnoreCase(s.getUriVariables().get("topic", String.class, null));
+        return Objects::nonNull;
     }
 }

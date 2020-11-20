@@ -114,3 +114,10 @@ WebKit inertia scrolling is being added here for any present/future devices that
     height: 10vh;
     min-height: 70px !important;
 }
+
+#msgToServer,
+.list-group-item {
+    white-space: pre;
+    font-family: monospace;
+    line-height: 1.0;
+}

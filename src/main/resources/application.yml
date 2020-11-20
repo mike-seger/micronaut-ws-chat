@@ -1,4 +1,5 @@
 micronaut:
+  server.port: 8881
   application:
     name: micronautWsChat
 
