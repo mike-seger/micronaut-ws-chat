@@ -7,12 +7,12 @@ import io.micronaut.websocket.annotation.OnMessage;
 import io.micronaut.websocket.annotation.OnOpen;
 import io.micronaut.websocket.annotation.ServerWebSocket;
 
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 @ServerWebSocket(ChatServerWebSocket.chatEndpoint)
 public class ChatServerWebSocket {
-    final static String chatEndpoint = "/chat/{topic}/{username}";
+    final static String chatEndpoint = "/chat/{topic}/{userName}";
     final private WebSocketBroadcaster broadcaster;
 
     public ChatServerWebSocket(WebSocketBroadcaster broadcaster) {
@@ -20,33 +20,46 @@ public class ChatServerWebSocket {
     }
 
     @OnOpen 
-    public void onOpen(String topic, String username, WebSocketSession session) {
-        String msg = "[" + username + "] Connected!";
-        broadcaster.broadcastAsync(msg, isValid(topic, session));
+    public void onOpen(String topic, String userName, WebSocketSession session) {
+        broadcaster.broadcastAsync(
+            new Message(userName, ContentType.text, "Connected").toJson());
     }
 
     @OnMessage 
     public void onMessage(
             String topic,
-            String username,
-            String message,
+            String userName,
+            String messageJson,
             WebSocketSession session) {
-        String msg = "[" + username + "]\n" + message;
-  //      session.sendAsync(String.format("You sent: %s", message));
-        broadcaster.broadcastAsync(msg, isValid(topic, session));
+        Message message = new Message();
+        message.fromJson(messageJson);
+        // ensure user and time data are from server
+        message.userName = userName;
+        message.timeStamp = ZonedDateTime.now(ZoneOffset.UTC);
+        broadcaster.broadcastAsync(message.toJson());
     }
 
     @OnClose 
     public void onClose(
             String topic,
-            String username,
+            String userName,
             WebSocketSession session) {
-        String msg = "[" + username + "] Disconnected!";
-//        broadcaster.broadcastAsync(msg, isValid(topic, session));
+        broadcaster.broadcastAsync(
+            new Message(userName, ContentType.text, "Disconnected").toJson());
     }
 
-    private Predicate<WebSocketSession> isValid(String topic, WebSocketSession session) {
-        //return s -> /*s != session &&*/ topic.equalsIgnoreCase(s.getUriVariables().get("topic", String.class, null));
-        return Objects::nonNull;
+    enum ContentType { text, markdown }
+    private static class Message implements JsonAware {
+        public Message() {}
+        public Message(String userName, ContentType contentType, String content) {
+            this.userName = userName;
+            this.contentType = contentType;
+            this.content = content;
+        }
+
+        public ZonedDateTime timeStamp = ZonedDateTime.now(ZoneOffset.UTC);
+        public String userName;
+        public ContentType contentType;
+        public String content;
     }
 }

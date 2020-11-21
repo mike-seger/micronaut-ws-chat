@@ -116,8 +116,8 @@ WebKit inertia scrolling is being added here for any present/future devices that
 }
 
 #msgToServer,
-.list-group-item {
-    white-space: pre;
+.list-group-item-text {
+    white-space: pre-wrap;
     font-family: monospace;
     line-height: 1.0;
 }

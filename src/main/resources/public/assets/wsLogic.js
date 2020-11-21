@@ -24,7 +24,7 @@ function connectToServer() {
             document.getElementById("connectionStatus").innerHTML = "Connected";
         };
         ws.onmessage = function (event) {
-            createLogLine(event.data);
+            createLogLine(JSON.parse(event.data));
         };
         ws.onclose = function () {
             document.getElementById("connectionStatus").innerHTML = "Disconnected";
@@ -62,7 +62,7 @@ function clearHistory() {
 }
 
 function submitOnEnter(event){
-    if(event.which === 13 && !event.shiftKey) {
+    if(event && event.which === 13 && !event.shiftKey) {
         sendMessage();
         event.preventDefault(); // Prevents the addition of a new line in the text field (not needed in a lot of cases)
     }
@@ -77,24 +77,23 @@ function clearLog() {
     }
 }
 
-function dateStringNow() {
-    var date = new Date()
-    return dateString(new Date(date.getTime() + (date.getTimezoneOffset()*60000)));
-}
-
-function dateString(date) {
-    var dateStr = date.toISOString().replace("T", " ").substring(0, 19);
-    return dateStr;
-}
-
 function createLogLine(msg) {
     var logLine = document.createElement("li");
 
-    var converter = new showdown.Converter(),
-    html = converter.makeHtml(formatMessage(msg));
+    var timeStamp = new Date(msg.timeStamp);
+    var html = new Date(timeStamp.getTime() -
+         (timeStamp.getTimezoneOffset()*60000)).toISOString().replace("T", " ").substring(0, 19)
+         + ": " + msg.userName + "\n";
 
-    logLine.innerHTML = dateStringNow() + " : " + html;
-    logLine.className = 'list-group-item';
+    if(msg.contentType === "markdown") {
+        var converter = new showdown.Converter(),
+        html = html + converter.makeHtml(msg.content);
+    } else {
+        html = html + msg.content;
+        logLine.className = 'list-group-item-text';
+    }
+
+    logLine.innerHTML = html;
     appendLogLine(logLine);
 }
 
@@ -117,8 +116,7 @@ function createHistoryLine(msg) {
         msg.date = new Date(msg.date);
     }
     var logLine = document.createElement("li");
-    var data = "<div><span>" + dateString(msg.date) + "</span></div>\
-            <div>URL: <span>" + msg.url + "</span></div>\
+    var data = "<div>URL: <span>" + msg.url + "</span></div>\
             <div>message: <span>" + msg.message + "</span></div>\
             "
             ;
@@ -141,30 +139,30 @@ function appendHistoryLine(line) {
     }
 }
 
-function formatMessage(msg) {
-    if (typeof msg === "object") {
-        return JSON.stringify(msg);
-    }
-    return msg;
-}
-
 function getInTwoDigits(num) {
     return num < 10 ? '0' + num : '' + num;
 }
 
-function disconnectToServer() {
+function disconnectFromServer() {
     ws.close();
 }
+
 function sendMessage() {
     var icon = document.getElementById("error_icon");
     try {
         var msgObj = document.getElementById("msgToServer").value;
-        ws.send(msgObj);
+        var contentType = document.getElementById("contentType");
+        var message = {
+            content : msgObj,
+            contentType : contentType.options[contentType.selectedIndex].value
+        }
+        var messageJson = JSON.stringify(message);
+        ws.send(messageJson);
         icon.style.visibility = "hidden";
         icon.title = '';
         var historyLine = {
             url: document.getElementById("serverSelected").value,
-            message: document.getElementById("msgToServer").value,
+            message: messageJson,
             date: new Date()
         };
         messagesHistory.unshift(historyLine);
@@ -179,7 +177,9 @@ function sendMessage() {
 
 function historySelect(msg) {
     document.getElementById("serverSelected").value = msg.url;
-    document.getElementById("msgToServer").value = msg.message;
+    message = JSON.parse(msg.message);
+    document.getElementById("msgToServer").value = message.content;
+    document.getElementById("contentType").value = message.contentType;
 }
 
 function loadHistory() {
