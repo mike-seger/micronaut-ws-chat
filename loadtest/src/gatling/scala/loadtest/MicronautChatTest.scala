@@ -3,6 +3,7 @@ package loadtest
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
+import scala.concurrent.duration._
 
 class MicronautChatTest extends Simulation {
   val users = sys.props.getOrElse("users", "300").toInt
@@ -46,7 +47,7 @@ class MicronautChatTest extends Simulation {
 //            )
 //          .check(wsListen.within(10 seconds).until(1).regex(".*").is("HOHO")))
           )
-          .pause(1)
+          .pause(100.milliseconds)
         }
       ))
 

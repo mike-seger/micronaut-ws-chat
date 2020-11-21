@@ -3,6 +3,7 @@ package loadtest
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
+import scala.concurrent.duration._
 
 class PhoneixChatTest extends Simulation {
   val users = sys.props.getOrElse("users", "300").toInt
@@ -18,15 +19,15 @@ class PhoneixChatTest extends Simulation {
     .exec(session => session.set("id", session.userId))
     .exec(ws("openSocket").connect("/websocket?user_id=${id}")
       .onConnected(
-        ws("initialMessage")
+        exec(ws("initialMessage")
           .sendText("""
             {"topic":"rooms:lobby","event":"phx_join","payload":{},"ref":"1"}
-          """)
-        repeat(repetitions, "i") {
+          """))
+        .repeat(repetitions, "i") {
           exec(
             ws("sendMessage")
               .sendText("""
-                {"content": "chat text ${id}","contentType":"text"}
+                {"topic":"rooms:lobby","event":"new:msg","payload":{"user":"","body":"message friom user: ${id}"},"ref":"2"}
               """)
             .await(10)(
               ws.checkTextMessage("check1")
@@ -34,7 +35,7 @@ class PhoneixChatTest extends Simulation {
                 .check(regex(".*"))
             )
           )
-          .pause(1)
+          .pause(100.milliseconds)
         }
       ))
 
