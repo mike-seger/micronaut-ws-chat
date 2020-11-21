@@ -3,6 +3,13 @@ micronaut:
   application:
     name: micronautWsChat
 
+  netty:
+    event-loops:
+      default:
+        prefer-native-transport: true
+#    worker:
+#      threads: 100
+
   router:
     static-resources:
       default:

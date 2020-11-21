@@ -13,6 +13,7 @@ repositories {
 
 micronaut {
     runtime "netty"
+    //runtime("io.netty:netty-transport-native-kqueue:osx-x86_64")
     testRuntime "junit5"
     processing {
         incremental true

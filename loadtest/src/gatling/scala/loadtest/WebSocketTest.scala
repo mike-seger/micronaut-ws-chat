@@ -6,40 +6,54 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 
 class WebSocketTest extends Simulation {
   val users = sys.props.getOrElse("users", "300").toInt
+  val toUsers = sys.props.getOrElse("tousers", "1000").toInt
   val repetitions = sys.props.getOrElse("repetitions", "5").toInt
-  println(users+"")
+  val wsUrl = sys.props.getOrElse("wsurl", "ws://localhost:8881/chat/room1")
+  
+  println(s"${users} / ${repetitions} / ${wsUrl}")
   val httpProtocol: HttpProtocolBuilder = http
-      .baseUrl("http://localhost:8881")
-//      .wsBaseUrl("wss://echo.websocket.org")
-      .wsBaseUrl("ws://localhost:8881/chat/room1")
-
-//root is HTTP protocol and webSocket url is being app  ended to it
+      .wsBaseUrl(wsUrl)
 
   val scene = scenario("testWebSocket")
-    .exec(http("firstRequest")
-    .get("/"))
-    .exec(session => session.set("id", "user" + session.userId))
+    .pause(1)
+    .exec(session => session.set("id", "user"/* + session.userId*/))
     .exec(ws("openSocket").connect("/${id}")
       .onConnected(
         repeat(repetitions, "i") {
-          exec(ws("sendMessage").sendText("{\"content\":\"chat text ${id}\",\"contentType\":\"text\"}")
-            .await(5)(ws.checkTextMessage("check1").check(regex(".*(Connected|Disconnected|chat text user).*")
-//              .await(20)(ws.checkTextMessage("check1").check(regex(".*chat text ${id}-${i}.*")
-//              .await(20)(ws.checkTextMessage("check1").check(regex(".*(Connected|Disconnected|chat text).*")
-            )))
+          exec(
+            ws("sendMessage")
+              .sendText("""
+                {
+                  "content": "chat text ${id}"
+                  ,"contentType":"text"
+                }
+              """)
+ //             .check(wsListen.within(30. seconds).until(1).regex(".*(Connected|Disconnected|chat text user).*").saveAs("name"))
+
+          /*.exec(ws("check")*/
+ //           .check(wsListen.within(10).until(1).jsonPath("$.content").saveAs("clientID")))
+//            .check(wsListen.within(10 seconds)
+//              .accumulate.jsonPath("$.content")
+//              .regex(".*(Connected|Disconnected|chat text user).*")
+//            )
+
+            .await(10)(
+//              wsListen.within(10).until(1).jsonPath("$.[2]").saveAs("clientID"))
+              ws.checkTextMessage("check1")
+                .check(regex(".*(Connected|Disconnected|chat text ${id}).*"))
+   //             .check(regex(".*(chat text ${id}).*"))
+            )
+//            )
+//          .check(wsListen.within(10 seconds).until(1).regex(".*").is("HOHO")))
+          )
+          .pause(1)
         }
       ))
-// created custom checks for checking my response
-   
-//.exec(session => session{
-//      println(session("myMessage").as[String])
-//      session
-//    })
-//created the session for printing the response and type-casted it to String
 
-// fails for some reason -> analyze
-//    .exec(ws("closeConnection").close)
-//terminating the current websocket connection
-
-  setUp(scene.inject(atOnceUsers(users)).protocols(httpProtocol))
+  setUp(scene.inject(
+    nothingFor(4)
+    , atOnceUsers(users)
+//    , constantUsersPerSec(users) during (20)
+//    , rampUsersPerSec(1) to toUsers during (600)
+  ).protocols(httpProtocol))
 }
