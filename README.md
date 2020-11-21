@@ -21,11 +21,6 @@ java -jar build/libs/*-all.jar
 The ChatServerWebSocket class has been copied from here:
 https://docs.micronaut.io/latest/guide/index.html#websocketServer
 
-An additional self echo response has been added to onMessage:
-```
-session.sendAsync(String.format("You sent: %s", message));
-```
-
 ## Test Sending Messages 
 ```
 wscat -c ws://localhost:8080/chat/room1/user1
