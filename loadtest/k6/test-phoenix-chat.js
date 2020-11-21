@@ -1,19 +1,25 @@
 import ws from 'k6/ws';
 import { check } from 'k6';
 
-export default function () {
-  const url = 'ws://localhost:8881/chat/room1/user1';
-  const params = { tags: { tag : 'micronaut-ws-chat' } };
+var i;
 
+export default function () {
+  const userId = `user+${__VU}`;
+  const url = 'ws://localhost:4000/socket/websocket?user_id='+userId;
+  const params = { tags: { tag : 'micronaut-ws-chat' } };
+  i=2;
   const res = ws.connect(url, params, function (socket) {
+
+//{"topic":"phoenix","event":"heartbeat","payload":{},"ref":"4"}
     socket.on('open', function open() {
+        socket.send({"topic":"rooms:lobby","event":"phx_join","payload":{},"ref":"1"});
         socket.setInterval(function timeout() {
-            socket.send({
-              "content": "chat text user"
-              ,"contentType":"text"
-            });
-        }, 100);
+            socket.send({"topic":"rooms:lobby","event":"new:msg",
+              "payload":{"user": userId,"body":"message from user: "+userId},"ref":""+i});
+            i=i+1;
+        }, 1000);
     });
+    
 
 //    socket.on('message', (data) => console.log('Message received: ', data));
     socket.on('close', () => console.log('disconnected'));

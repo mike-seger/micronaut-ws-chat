@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 
-class WebSocketTest extends Simulation {
+class MicronautChatTest extends Simulation {
   val users = sys.props.getOrElse("users", "300").toInt
   val toUsers = sys.props.getOrElse("tousers", "1000").toInt
   val repetitions = sys.props.getOrElse("repetitions", "5").toInt
