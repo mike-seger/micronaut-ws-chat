@@ -1,4 +1,4 @@
-package computerdatabase
+package loadtest
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
@@ -22,7 +22,7 @@ class WebSocketTest extends Simulation {
     .exec(ws("openSocket").connect("/${id}")
       .onConnected(
         repeat(repetitions, "i") {
-          exec(ws("sendMessage").sendText("chat text ${id}-${i}")
+          exec(ws("sendMessage").sendText("{\"content\":\"chat text ${id}\",\"contentType\":\"text\"}")
             .await(5)(ws.checkTextMessage("check1").check(regex(".*(Connected|Disconnected|chat text user).*")
 //              .await(20)(ws.checkTextMessage("check1").check(regex(".*chat text ${id}-${i}.*")
 //              .await(20)(ws.checkTextMessage("check1").check(regex(".*(Connected|Disconnected|chat text).*")
