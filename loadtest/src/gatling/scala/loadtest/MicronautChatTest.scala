@@ -52,8 +52,7 @@ class MicronautChatTest extends Simulation {
       ))
 
   setUp(scene.inject(
-    nothingFor(4)
-    , atOnceUsers(users)
+    atOnceUsers(users)
 //    , constantUsersPerSec(users) during (20)
 //    , rampUsersPerSec(1) to toUsers during (600)
   ).protocols(httpProtocol))

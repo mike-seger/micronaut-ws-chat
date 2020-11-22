@@ -6,4 +6,5 @@
 ----
 $ ../gradlew clean -Dusers=300 -Drepetitions=60 gatlingRun-loadtest.MicronautChatTest
 $ ../gradlew clean -Dusers=300 -Drepetitions=60 gatlingRun-loadtest.PhoneixChatTest
+$ ../gradlew clean -Dusers=300 -Drepetitions=60 gatlingRun-loadtest.ElixirChatTest
 ----
