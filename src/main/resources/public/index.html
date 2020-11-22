@@ -55,7 +55,7 @@
             <span id="connectionStatus">
             Disconnected
             </span>
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" id="connection_error_icon" style="color:#c9302c; visibility: hidden"></span>
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" id="connection_error_icon"></span>
             <select id="contentType">
                 <option value="text">Plain Text</option>
                 <option value="markdown">Markdown</option>
@@ -63,7 +63,7 @@
         </div>
         <!-- /.row -->
 
-    <textarea onkeydown="submitOnEnter()" id="msgToServer" style="width: 80rem; min-height: 220px" placeholder="Put your Message Here"></textarea>
+    <textarea class="input" onkeydown="submitOnEnter()" id="msgToServer" placeholder="Put your Message Here"></textarea>
         <br>
         <button type="button" class="btn btn-sm btn-success" onclick="sendMessage()">
             Send Message
@@ -90,7 +90,7 @@
 
     <div class="Right">
         <div class="header">
-            <h4 class="text-muted">History</h4>
+            <h4 class="text-muted">Input History</h4>
         </div>
         <div>
             <ul class="list-group" id="historyContainer">

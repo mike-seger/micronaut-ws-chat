@@ -121,3 +121,18 @@ WebKit inertia scrolling is being added here for any present/future devices that
     font-family: monospace;
     line-height: 1.0;
 }
+
+#connection_error_icon {
+    color:#c9302c;
+    visibility: hidden
+}
+
+.list-group li {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #C8C8C8;
+}
+
+.input {
+    width: 100%;
+    min-height: 220px;
+}

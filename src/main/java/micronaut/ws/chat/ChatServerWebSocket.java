@@ -1,5 +1,6 @@
 package micronaut.ws.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.micronaut.websocket.WebSocketBroadcaster;
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
@@ -21,8 +22,7 @@ public class ChatServerWebSocket {
 
     @OnOpen 
     public void onOpen(String topic, String userName, WebSocketSession session) {
-        broadcaster.broadcastAsync(
-            new Message(userName, ContentType.text, "Connected").toJson());
+        broadcastRaw(userName,"connected");
     }
 
     @OnMessage 
@@ -31,12 +31,19 @@ public class ChatServerWebSocket {
             String userName,
             String messageJson,
             WebSocketSession session) {
-        Message message = new Message();
-        message.fromJson(messageJson);
-        // ensure user and time data are from server
-        message.userName = userName;
-        message.timeStamp = ZonedDateTime.now(ZoneOffset.UTC);
-        broadcaster.broadcastAsync(message.toJson());
+        if(messageJson.trim().startsWith("{")) {
+            try {
+                Message message = new Message(messageJson);
+                // ensure user and time values are from server
+                message.userName = userName;
+                message.timeStamp = ZonedDateTime.now(ZoneOffset.UTC);
+                broadcaster.broadcastAsync(message.toJson());
+            } catch(Exception e) {
+                broadcastRaw(userName, messageJson);
+            }
+        } else {
+            broadcastRaw(userName, messageJson);
+        }
     }
 
     @OnClose 
@@ -44,17 +51,23 @@ public class ChatServerWebSocket {
             String topic,
             String userName,
             WebSocketSession session) {
-        broadcaster.broadcastAsync(
-            new Message(userName, ContentType.text, "Disconnected").toJson());
+        broadcastRaw(userName,  "disconnected");
+    }
+
+    private void broadcastRaw(String userName, String content) {
+        String timeStamp = ZonedDateTime.now(ZoneOffset.UTC)
+            .toOffsetDateTime().toString()
+            .substring(0, 23)
+            .replace("T", " ")+"Z";
+        broadcaster.broadcastAsync(String.format("%s - %s:\n%s", timeStamp, userName, content));
     }
 
     enum ContentType { text, markdown }
-    private static class Message implements JsonAware {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private static class Message implements JsonAware<Message> {
         public Message() {}
-        public Message(String userName, ContentType contentType, String content) {
-            this.userName = userName;
-            this.contentType = contentType;
-            this.content = content;
+        public Message(String json) {
+            fromJson(json);
         }
 
         public ZonedDateTime timeStamp = ZonedDateTime.now(ZoneOffset.UTC);

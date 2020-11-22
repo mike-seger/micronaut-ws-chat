@@ -24,7 +24,7 @@ function connectToServer() {
             document.getElementById("connectionStatus").innerHTML = "Connected";
         };
         ws.onmessage = function (event) {
-            createLogLine(JSON.parse(event.data));
+            createLogLine(parseJsonOrRaw(event.data));
         };
         ws.onclose = function () {
             document.getElementById("connectionStatus").innerHTML = "Disconnected";
@@ -80,17 +80,20 @@ function clearLog() {
 function createLogLine(msg) {
     var logLine = document.createElement("li");
 
-    var timeStamp = new Date(msg.timeStamp);
-    var html = new Date(timeStamp.getTime() -
-         (timeStamp.getTimezoneOffset()*60000)).toISOString().replace("T", " ").substring(0, 19)
-         + ": " + msg.userName + "\n";
-
-    if(msg.contentType === "markdown") {
-        var converter = new showdown.Converter(),
-        html = html + converter.makeHtml(msg.content);
-    } else {
-        html = html + msg.content;
-        logLine.className = 'list-group-item-text';
+    var html = msg;
+    logLine.className = 'list-group-item-text';
+    if(msg.contentType) {
+        var timeStamp = new Date(msg.timeStamp);
+        html = new Date(timeStamp.getTime() -
+             (timeStamp.getTimezoneOffset()*60000)).toISOString().replace("T", " ").substring(0, 23)
+             + " - " + msg.userName + ":";
+        if(msg.contentType === "markdown") {
+            logLine.className = '';
+            var converter = new showdown.Converter(),
+            html = html + converter.makeHtml(msg.content);
+        } else {
+            html = html + "\n" + msg.content;
+        }
     }
 
     logLine.innerHTML = html;
@@ -116,10 +119,8 @@ function createHistoryLine(msg) {
         msg.date = new Date(msg.date);
     }
     var logLine = document.createElement("li");
-    var data = "<div>URL: <span>" + msg.url + "</span></div>\
-            <div>message: <span>" + msg.message + "</span></div>\
-            "
-            ;
+    var data = "<div>URL: <span>" + msg.url + "</span></div>"
+        +"<div>message: <span>" + msg.message + "</span></div>";
     logLine.innerHTML = data;
     logLine.onclick = function () {
         historySelect(msg);
@@ -139,10 +140,6 @@ function appendHistoryLine(line) {
     }
 }
 
-function getInTwoDigits(num) {
-    return num < 10 ? '0' + num : '' + num;
-}
-
 function disconnectFromServer() {
     ws.close();
 }
@@ -150,13 +147,18 @@ function disconnectFromServer() {
 function sendMessage() {
     var icon = document.getElementById("error_icon");
     try {
-        var msgObj = document.getElementById("msgToServer").value;
+        var text = document.getElementById("msgToServer").value;
         var contentType = document.getElementById("contentType");
-        var message = {
-            content : msgObj,
-            contentType : contentType.options[contentType.selectedIndex].value
+        var contentTypeValue = contentType.options[contentType.selectedIndex].value;
+        var messageJson;
+        if(contentTypeValue === "text") {
+            messageJson = text;
+        } else {
+            messageJson = JSON.stringify({
+                content : text,
+                contentType : contentTypeValue
+            });
         }
-        var messageJson = JSON.stringify(message);
         ws.send(messageJson);
         icon.style.visibility = "hidden";
         icon.title = '';
@@ -177,9 +179,22 @@ function sendMessage() {
 
 function historySelect(msg) {
     document.getElementById("serverSelected").value = msg.url;
-    message = JSON.parse(msg.message);
-    document.getElementById("msgToServer").value = message.content;
-    document.getElementById("contentType").value = message.contentType;
+    var message = parseJsonOrRaw(msg.message);
+    if(message.contentType) {
+        document.getElementById("msgToServer").value = message.content;
+        document.getElementById("contentType").value = message.contentType;
+    } else {
+        document.getElementById("msgToServer").value = message;
+        document.getElementById("contentType").value = "text";
+    }
+}
+
+function parseJsonOrRaw(data) {
+    try {
+        return JSON.parse(data);
+    } catch(e) {
+        return data;
+    }
 }
 
 function loadHistory() {
