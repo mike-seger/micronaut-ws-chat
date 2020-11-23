@@ -1,5 +1,5 @@
 https://github.com/mike-seger/micronaut-ws-chat/tree/master/loadtest
-$ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.PhoneixChatTest
+$ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.MicronautChatTest
 $ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.ElixirChatTest
 
 
