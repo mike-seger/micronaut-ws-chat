@@ -56,8 +56,8 @@ public class ChatServerWebSocket {
 
     private void broadcastRaw(String userName, String content) {
         String timeStamp = ZonedDateTime.now(ZoneOffset.UTC)
-            .toOffsetDateTime().toString()
-            .substring(0, 23)
+            .toOffsetDateTime().toString();
+        timeStamp = timeStamp.substring(0, Math.min(23, timeStamp.length()))
             .replace("T", " ")+"Z";
         broadcaster.broadcastAsync(String.format("%s - %s:\n%s", timeStamp, userName, content));
     }

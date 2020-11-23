@@ -9,7 +9,7 @@ class ElixirChatTest extends Simulation {
   val users = sys.props.getOrElse("users", "300").toInt
   val toUsers = sys.props.getOrElse("tousers", "1000").toInt
   val repetitions = sys.props.getOrElse("repetitions", "5").toInt
-  val wsUrl = sys.props.getOrElse("wsurl", "ws://localhost:8882")
+  val wsUrl = sys.props.getOrElse("wsurl", "ws://localhost:8882/websocket?chatUser=")
   
   println(s"${users} / ${repetitions} / ${wsUrl}")
   val httpProtocol: HttpProtocolBuilder = http.wsBaseUrl(wsUrl)
@@ -17,17 +17,14 @@ class ElixirChatTest extends Simulation {
   val scene = scenario("testWebSocket")
     .pause(1)
     .exec(session => session.set("id", session.userId))
-    .exec(ws("openSocket").connect("/websocket?chatUser=${id}")
+    .exec(ws("openSocket").connect("${id}")
       .onConnected(
         repeat(repetitions, "i") {
           exec(
             ws("sendMessage")
-              .sendText("""
-                {"topic":"rooms:lobby","event":"new:msg","payload":{"user":"","body":"message friom user: ${id}"},"ref":"2"}
-              """)
+              .sendText("User sent a text")
             .await(10)(
               ws.checkTextMessage("check1")
-//                .check(regex(".*(Connected|Disconnected|chat text).*"))
                 .check(regex(".*"))
             )
           )
