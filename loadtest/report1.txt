@@ -1,4 +1,10 @@
+https://github.com/mike-seger/micronaut-ws-chat/tree/master/loadtest
+$ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.PhoneixChatTest
+$ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.ElixirChatTest
+
+
 Elixir / Cowboy
+https://github.com/mike-seger/elixir-ws-chat
 --------------------------------------------------------------------------------
 200 users
 ================================================================================
@@ -81,6 +87,7 @@ Elixir / Cowboy
 
 
 Micronaut
+https://github.com/mike-seger/micronaut-ws-chat
 --------------------------------------------------------------------------------
 200 users
 ================================================================================
