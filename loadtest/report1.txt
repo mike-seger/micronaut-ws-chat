@@ -1,0 +1,145 @@
+Elixir / Cowboy
+--------------------------------------------------------------------------------
+200 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      24200 (OK=24200  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                     49 (OK=49     KO=-     )
+> mean response time                                     1 (OK=1      KO=-     )
+> std deviation                                          3 (OK=3      KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          0 (OK=0      KO=-     )
+> response time 95th percentile                          2 (OK=2      KO=-     )
+> response time 99th percentile                         18 (OK=18     KO=-     )
+> mean requests/sec                                   3025 (OK=3025   KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         24200 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+500 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      60500 (OK=60500  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                    147 (OK=147    KO=-     )
+> mean response time                                     1 (OK=1      KO=-     )
+> std deviation                                         10 (OK=10     KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          0 (OK=0      KO=-     )
+> response time 95th percentile                          1 (OK=1      KO=-     )
+> response time 99th percentile                         36 (OK=36     KO=-     )
+> mean requests/sec                                 7562.5 (OK=7562.5 KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         60500 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+1000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     121000 (OK=121000 KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                    197 (OK=197    KO=-     )
+> mean response time                                     2 (OK=2      KO=-     )
+> std deviation                                         14 (OK=14     KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          0 (OK=0      KO=-     )
+> response time 95th percentile                          2 (OK=2      KO=-     )
+> response time 99th percentile                         58 (OK=58     KO=-     )
+> mean requests/sec                                  15125 (OK=15125  KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                        121000 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+2000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     122480 (OK=121484 KO=996   )
+> min response time                                      0 (OK=0      KO=59971 )
+> max response time                                  60233 (OK=310    KO=60233 )
+> mean response time                                   491 (OK=3      KO=60043 )
+> std deviation                                       5392 (OK=22     KO=56    )
+> response time 50th percentile                          0 (OK=0      KO=60018 )
+> response time 75th percentile                          0 (OK=0      KO=60046 )
+> response time 95th percentile                          3 (OK=2      KO=60169 )
+> response time 99th percentile                        269 (OK=102    KO=60227 )
+> mean requests/sec                                1975.484 (OK=1959.419 KO=16.065)
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                        121484 ( 99%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                               996 (  1%)
+---- Errors --------------------------------------------------------------------
+>                                                                   996 (100.0%)
+================================================================================
+
+
+Micronaut
+--------------------------------------------------------------------------------
+200 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      24200 (OK=24200  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                    347 (OK=347    KO=-     )
+> mean response time                                     2 (OK=2      KO=-     )
+> std deviation                                         16 (OK=16     KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          0 (OK=0      KO=-     )
+> response time 95th percentile                          1 (OK=1      KO=-     )
+> response time 99th percentile                         56 (OK=56     KO=-     )
+> mean requests/sec                                   3025 (OK=3025   KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         24200 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+500 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      60500 (OK=60179  KO=321   )
+> min response time                                      0 (OK=0      KO=0     )
+> max response time                                   9361 (OK=8622   KO=9361  )
+> mean response time                                    34 (OK=33     KO=275   )
+> std deviation                                        248 (OK=235    KO=1096  )
+> response time 50th percentile                          0 (OK=0      KO=30    )
+> response time 75th percentile                          3 (OK=3      KO=96    )
+> response time 95th percentile                         92 (OK=89     KO=1551  )
+> response time 99th percentile                        716 (OK=706    KO=7645  )
+> mean requests/sec                                3184.211 (OK=3167.316 KO=16.895)
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         59683 ( 99%)
+> 800 ms < t < 1200 ms                                 183 (  0%)
+> t > 1200 ms                                          313 (  1%)
+> failed                                               321 (  1%)
+---- Errors --------------------------------------------------------------------
+> Check check1 timeout                                              321 (100.0%)
+================================================================================
+1000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     121000 (OK=102395 KO=18605 )
+> min response time                                      0 (OK=0      KO=0     )
+> max response time                                   9901 (OK=9762   KO=9901  )
+> mean response time                                   195 (OK=115    KO=634   )
+> std deviation                                        676 (OK=467    KO=1243  )
+> response time 50th percentile                          0 (OK=0      KO=218   )
+> response time 75th percentile                         59 (OK=8      KO=671   )
+> response time 95th percentile                       1044 (OK=647    KO=2454  )
+> response time 99th percentile                       3104 (OK=2262   KO=7302  )
+> mean requests/sec                                1983.607 (OK=1678.607 KO=305   )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         98240 ( 81%)
+> 800 ms < t < 1200 ms                                1536 (  1%)
+> t > 1200 ms                                         2619 (  2%)
+> failed                                             18605 ( 15%)
+---- Errors --------------------------------------------------------------------
+> Check check1 timeout                                            18605 (100.0%)
+================================================================================
