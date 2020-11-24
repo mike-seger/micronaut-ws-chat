@@ -60,6 +60,7 @@ public class ChatServerWebSocket {
         timeStamp = timeStamp.substring(0, Math.min(23, timeStamp.length()))
             .replace("T", " ")+"Z";
         broadcaster.broadcastAsync(String.format("%s - %s:\n%s", timeStamp, userName, content));
+        //broadcaster.broadcastAsync(content);
     }
 
     enum ContentType { text, markdown }

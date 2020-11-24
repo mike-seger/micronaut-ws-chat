@@ -1,5 +1,4 @@
 https://github.com/mike-seger/micronaut-ws-chat/tree/master/loadtest
-$ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.PhoneixChatTest
 $ ../gradlew clean -Dusers=1000 -Drepetitions=60 gatlingRun-loadtest.ElixirChatTest
 
 
@@ -149,4 +148,108 @@ https://github.com/mike-seger/micronaut-ws-chat
 > failed                                             18605 ( 15%)
 ---- Errors --------------------------------------------------------------------
 > Check check1 timeout                                            18605 (100.0%)
+================================================================================
+2000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     215831 (OK=131342 KO=84489 )
+> min response time                                      0 (OK=0      KO=0     )
+> max response time                                  21079 (OK=21079  KO=9900  )
+> mean response time                                   405 (OK=104    KO=874   )
+> std deviation                                       1655 (OK=825    KO=2362  )
+> response time 50th percentile                          0 (OK=0      KO=35    )
+> response time 75th percentile                         33 (OK=0      KO=153   )
+> response time 95th percentile                       1281 (OK=111    KO=8101  )
+> response time 99th percentile                       8639 (OK=3569   KO=9021  )
+> mean requests/sec                                3597.183 (OK=2189.033 KO=1408.15)
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                        129002 ( 60%)
+> 800 ms < t < 1200 ms                                 308 (  0%)
+> t > 1200 ms                                         2032 (  1%)
+> failed                                             84489 ( 39%)
+---- Errors --------------------------------------------------------------------
+> Check check1 timeout                                            84489 (100.0%)
+================================================================================
+
+Quarkus
+https://github.com/mike-seger/quarkus-ws-chat
+200 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      24200 (OK=24200  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                    559 (OK=559    KO=-     )
+> mean response time                                     2 (OK=2      KO=-     )
+> std deviation                                         18 (OK=18     KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          1 (OK=1      KO=-     )
+> response time 95th percentile                          3 (OK=3      KO=-     )
+> response time 99th percentile                         64 (OK=64     KO=-     )
+> mean requests/sec                                   3025 (OK=3025   KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         24200 (100%)
+> 800 ms < t < 1200 ms                                   0 (  0%)
+> t > 1200 ms                                            0 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+500 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                      60500 (OK=60500  KO=0     )
+> min response time                                      0 (OK=0      KO=-     )
+> max response time                                   1894 (OK=1894   KO=-     )
+> mean response time                                    10 (OK=10     KO=-     )
+> std deviation                                         46 (OK=46     KO=-     )
+> response time 50th percentile                          0 (OK=0      KO=-     )
+> response time 75th percentile                          4 (OK=4      KO=-     )
+> response time 95th percentile                         40 (OK=40     KO=-     )
+> response time 99th percentile                        168 (OK=168    KO=-     )
+> mean requests/sec                                5041.667 (OK=5041.667 KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                         60473 (100%)
+> 800 ms < t < 1200 ms                                  18 (  0%)
+> t > 1200 ms                                            9 (  0%)
+> failed                                                 0 (  0%)
+================================================================================
+1000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     121000 (OK=119922 KO=1078  )
+> min response time                                      0 (OK=0      KO=0     )
+> max response time                                   6984 (OK=6984   KO=2107  )
+> mean response time                                    32 (OK=30     KO=253   )
+> std deviation                                        265 (OK=259    KO=595   )
+> response time 50th percentile                          0 (OK=0      KO=13    )
+> response time 75th percentile                          5 (OK=5      KO=53    )
+> response time 95th percentile                         68 (OK=67     KO=1987  )
+> response time 99th percentile                        595 (OK=462    KO=2101  )
+> mean requests/sec                                3457.143 (OK=3426.343 KO=30.8  )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                        119075 ( 98%)
+> 800 ms < t < 1200 ms                                 131 (  0%)
+> t > 1200 ms                                          716 (  1%)
+> failed                                              1078 (  1%)
+---- Errors --------------------------------------------------------------------
+> Check check1 timeout                                             1078 (100.0%)
+================================================================================
+2000 users
+================================================================================
+---- Global Information --------------------------------------------------------
+> request count                                     136749 (OK=129955 KO=6794  )
+> min response time                                      0 (OK=0      KO=0     )
+> max response time                                  27639 (OK=27639  KO=9900  )
+> mean response time                                   102 (OK=64     KO=823   )
+> std deviation                                        727 (OK=621    KO=1653  )
+> response time 50th percentile                          0 (OK=0      KO=34    )
+> response time 75th percentile                         10 (OK=8      KO=523   )
+> response time 95th percentile                        110 (OK=82     KO=3630  )
+> response time 99th percentile                       2559 (OK=1642   KO=9770  )
+> mean requests/sec                                2279.15 (OK=2165.917 KO=113.233)
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                        128502 ( 94%)
+> 800 ms < t < 1200 ms                                 133 (  0%)
+> t > 1200 ms                                         1320 (  1%)
+> failed                                              6794 (  5%)
+---- Errors --------------------------------------------------------------------
+> Check check1 timeout                                             6794 (100.0%)
 ================================================================================

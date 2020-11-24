@@ -35,4 +35,5 @@ class ElixirChatTest extends Simulation {
   setUp(scene.inject(
     atOnceUsers(users)
   ).protocols(httpProtocol))
+  .maxDuration(1 minutes)
 }

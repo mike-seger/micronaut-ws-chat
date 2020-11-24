@@ -5,11 +5,13 @@ import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
 import scala.concurrent.duration._
 
-class MicronautChatTest extends Simulation {
+class QuarkusChatTest extends Simulation {
+  val host = sys.props.getOrElse("host", "localhost")
+  val port = sys.props.getOrElse("port", "8883").toInt
   val users = sys.props.getOrElse("users", "300").toInt
   val toUsers = sys.props.getOrElse("tousers", "1000").toInt
   val repetitions = sys.props.getOrElse("repetitions", "5").toInt
-  val wsUrl = sys.props.getOrElse("wsurl", "ws://localhost:8881/chat/room1/")
+  val wsUrl = sys.props.getOrElse("wsurl", s"ws://${host}:${port}/chat/user")
   
   println(s"${users} / ${repetitions} / ${wsUrl}")
   val httpProtocol: HttpProtocolBuilder = http.wsBaseUrl(wsUrl)
@@ -31,6 +33,7 @@ class MicronautChatTest extends Simulation {
           .pause(100.milliseconds)
         }
       ))
+//    .exec(ws("closeSocket").close)  
 
   setUp(scene.inject(
     atOnceUsers(users)
